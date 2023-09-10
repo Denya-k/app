@@ -1,0 +1,58 @@
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="lastName" required>
+  </mat-form-field>
+
+  <app-datepicker [form]="form"></app-datepicker>
+
+  <mat-form-field>
+    <mat-label>Select technology</mat-label>
+    <mat-select formControlName="framework" required>
+      <mat-option *ngFor="let framework of frameworks" [value]="framework">{{ framework }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select version</mat-label>
+    <mat-select formControlName="frameworkVersion" required>
+      <mat-option *ngFor="let frameworkVersion of frameworkVersions[form.controls['framework'].value]" [value]="frameworkVersion">{{ frameworkVersion }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+    <mat-error *ngIf="form.get('email')?.hasError('email')">Введіть коректну адресу електронної пошти</mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('emailExists')">Така адреса вже існує</mat-error>
+  </mat-form-field>
+
+  <div formArrayName="hobby" class="hobbies">
+    <div *ngFor="let hobbyGroup of hobby.controls; let i = index" [formGroupName]="i">
+      <mat-form-field>
+        <mat-label>Hobby Name</mat-label>
+        <input matInput formControlName="name" placeholder="Hobby Name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Duration</mat-label>
+        <input matInput formControlName="duration" placeholder="Duration">
+      </mat-form-field>
+      <button class="icon-delete" *ngIf="i !== 0" mat-icon-button (click)="removeHobby(i)" type="button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <button class="icon-add" mat-icon-button (click)="addHobby()" type="button">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <mat-error *ngIf="formSubmitted && form.invalid">Треба заповнити всі поля</mat-error>
+  <button mat-raised-button color="primary" type="submit">Отправить</button>
+
+</form>

@@ -1,0 +1,10 @@
+<div class="stopwatch">
+  <div class="time-display">
+    <p class="time">{{ displayTime }}</p>
+  </div>
+  <div class="buttons">
+    <button mat-raised-button color="primary" (click)="startStop()">{{ isRunning ? 'Stop' : 'Start' }}</button>
+    <button mat-raised-button color="accent" (click)="wait()">Wait</button>
+    <button mat-raised-button color="warn" (click)="reset()">Reset</button>
+  </div>
+</div>
